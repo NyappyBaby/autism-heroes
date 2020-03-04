@@ -1,0 +1,87 @@
+*{
+    font-family: 'Quicksand', ;
+}
+
+h1,h2,h3,h4,h5{
+
+    font-family: 'Ubuntu', ;
+}
+#banniere
+{
+width: 600px;
+height: 150px;
+background-position:  center;
+margin-bottom: 20px; 
+background-image: url('images/banniere.jpg');
+}
+
+.card{
+    border: 2px solid black;
+    box-shadow: 0px 0px 5px #fcccf4;
+}
+
+input{
+    border-radius: 5px;
+}
+
+
+.titre { width:68%; }
+.nombremessages { width:6%; }
+.nombrevu { width:8%; }
+.nombresujets { width:8%; }
+.auteur { width:8%; }
+.derniermessage { width:15%; }
+
+.logo{
+    height: 15%;
+    width: 15%;
+}
+.navbar {
+    box-shadow: 0px 0px 5px #fcccf4;
+    position: fixed;
+    background-color:o	#756e6f ;
+}
+.main-image{
+    width: 100%;
+    height: 50%;
+}
+label {
+    display:block;
+    width:150px;
+    float:left;
+    }
+    
+    .vt_auteur
+    {
+    width:20%;
+    background-color : rgb(244,238,250);
+    }
+    .vt_mess
+    {
+    width:75%;
+    background-color : rgb(244,238,250);
+    }
+    
+    #quote
+    {
+    width: 100%;
+    background-color : rgb(220,220,220);
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-family: "Comic sans MS", Arial, Verdana, serif;
+    }
+   
+.main-titre{
+    background-color:#e1e2e8;
+    height: 100px;
+    padding-top: 20px;
+}
+
+.mp_titre { width:65%; }
+.mp_expediteur { width:10%; }
+.mp_time { width:20%; }
+
+.a{
+    color: white;
+    text-decoration: none;
+}
