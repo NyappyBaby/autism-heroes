@@ -20,23 +20,29 @@ if ($id==0) erreur(ERR_IS_CO);
     <title>Document</title>
 </head>
 <div class="container">
-    <div class="row justify-content-center d-flex">
-<div class="card">
+    <div class="row justify-content-center d-flex mt-5">
+
 	<h1 class="text-center my-4">Card</h1>
 	<form  action="informationsOk.php" method="post" enctype="multipart/form-data">
     <div class="form-group">
+    <input type="file" name="avatar">
     <label class="col-4" for="inputAddress">* Titre :</label>
     <input class="col-7" type="text" class="form-control" id="pseudo" name="titre" placeholder="ex1225">
   </div>
   <div class="form-group">
     <label class="col-4" for="inputcontent">* Text :</label>
-    <input class="col-7" type="text" class="form-control" id="pseudo" name="content" placeholder="ex1225">
-  </div>
-  <p><input type="submit" value="Valider" name="submit" /></p></form>
+    <textarea id="story" name="content"
+          rows="10" cols="55">
+
+</textarea>
+
+  <p><input type="submit" class= value="Valider" name="submit" /></p></form>
+
 <?php
 
     $title = $_POST['titre'];
     $content = $_POST['content'];
+    $avatar = $_POST['avatar'];
     
   
 
@@ -49,12 +55,13 @@ if ($id==0) erreur(ERR_IS_CO);
 ?>
 <?php
         //On entre la card dans la base de donnée
-      
+        $nomavatar=(!empty($_FILES['avatar']['size']))?move_avatar($_FILES['avatar']):''; 
         $query=$db->prepare('INSERT INTO informations
-        (info_titre, info_content)
-        VALUES(:titre, :content)');
+        (info_titre, info_content, info_image)
+        VALUES(:titre, :content, :avatar)');
         $query->bindValue(':titre', $title, PDO::PARAM_STR);
         $query->bindValue(':content', $content, PDO::PARAM_STR);
+        $query->bindValue(':avatar', $nomavatar, PDO::PARAM_STR);
         $query->execute();
        
     

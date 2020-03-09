@@ -70,7 +70,6 @@ switch($action)
         $query->CloseCursor(); 
 
 
-        //Ici on update comme prévu la valeur de topic_last_post et de topic_first_post
    
 
         //Enfin on met à jour les tables forum_forum et forum_membres

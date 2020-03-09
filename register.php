@@ -4,6 +4,15 @@ $titre="Enregistrement";
 include("includes/identifiants.php");
 include("includes/debut.php");
 include("includes/menu.php");
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'vendor/autoload.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\Exception.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\PHPMailer.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\SMTP.php';
+
 echo '<p><i>Vous êtes ici</i> : <a href="./index.php">Index du forum</a> --> Enregistrement';
 
 if ($id!=0) erreur(ERR_IS_CO);
@@ -22,8 +31,8 @@ if (empty($_POST['pseudo']) && empty($_POST['email']) && empty($_POST['password'
 </head>
 <div class="container">
     <div class="row justify-content-center d-flex">
-<div class="card">
-	<h1 class="text-center my-4">Inscription 1/2</h1>
+<div class="">
+	<h1 class="text-center my-4">Inscription</h1>
 	<form  action="register.php" method="post" enctype="multipart/form-data">
 	<fieldset><legend class="col-4">Identifiants</legend>
     <div class="form-group">
@@ -50,11 +59,16 @@ if (empty($_POST['pseudo']) && empty($_POST['email']) && empty($_POST['password'
     <label class="col-4" for="avatar">Choisissez votre avatar :</label>
     <input class="col-7" type="file" id="avatar" name="avatar">
   </div>
-    <label for="signature" class="col-4">Signature :</label>
-    <textarea class="col-7" cols="40" rows="4" name="signature" id="signature">La signature est limitée à 200 caractères</textarea>
-	</fieldset>
-	<p>Les champs précédés d un * sont obligatoires</p>
-	<p><input type="submit" value="S'inscrire" name="submit" /></p></form>
+  </fieldset>
+  <div class="form-group">
+    <label class="col-4"for="signature" >Signature :</label>
+    </div>
+    <textarea class="col-7" cols="40" rows="4" name="signature" id="signature" placeholder="La signature est limitée à 200 caractères"></textarea>
+    
+    <div class="form-group">
+    <p>Les champs précédés d un * sont obligatoires</p>
+
+	<p><input type="submit" value="S'inscrire" name="submit" /></p></div></form>
     </div>
 </div>
 </div>
@@ -234,11 +248,48 @@ $pseudo_free=($query->fetchColumn()==0)?1:0;
 <label>Se souvenir de moi ?</label><input type="checkbox" name="souvenir" /><br />
 <?php
 //Message
-$message = "Bienvenue sur mon super forum !";
+$message = "Bienvenue sur le site autism-heroes, votre inscription est bien prise en compte!";
 //Titre
-$titre = "Inscription à mon super forum !";
+$titre = "Inscription";
 
-mail($_POST['email'], $titre, $message);
+
+
+$mail = new PHPMailer();
+$mail->CharSet = 'UTF-8';
+$to               = $email;
+$username         = 'testchiantemail@gmail.com';
+$password         = 'Vanna30032012';
+echo 'Welcome to Laragon Mail Analyzer...';
+$subject          = 'Inscription';
+$body             = '<p>Bienvenue sur le site autism-heroes '.$pseudo.', votre inscription est bien prise en compte!</p>';
+
+$mail->IsSMTP();
+$mail->SMTPOptions = array(
+    'ssl' => array(
+    'verify_peer' => false,
+    'verify_peer_name' => false,
+    'allow_self_signed' => true
+    )
+);
+$mail->SMTPDebug  = 2;                     
+$mail->SMTPAuth   = true;                  
+$mail->SMTPSecure = 'tls';                 
+$mail->Host       = 'smtp.gmail.com';      
+$mail->Port       = 587;                   
+$mail->Username   = $username;  
+$mail->Password   = $password;            
+
+$mail->SetFrom($username);
+$mail->Subject    = $subject;
+$mail->MsgHTML($body);
+$address = $to;
+$mail->AddAddress($address);
+if(!$mail->Send()) {
+  echo 'Mailer Error: ' . $mail->ErrorInfo;
+} else {
+  echo 'Message sent successfully!';
+}
+
 ?>
 <?php endif; ?>
 </div>

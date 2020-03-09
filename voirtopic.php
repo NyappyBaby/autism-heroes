@@ -4,7 +4,7 @@ $titre="Voir un sujet";
 include("includes/identifiants.php");
 include("includes/debut.php");
 include("includes/menu.php");
-include("includes/bbcode.php"); //On verra plus tard ce qu'est ce fichier
+include("includes/bbcode.php");
  
 
 date_default_timezone_set('Europe/Paris');
@@ -37,10 +37,11 @@ $nombreDeMessagesParPage = 15;
 <?php
 echo '<p><i>Vous êtes ici</i> : <a href="./index.php">Index du forum</a> --> 
 
-<a href="./voirforum.php?f='.$forum.'">'.stripslashes(htmlspecialchars($data['forum_name'])).'</a>
- --> <a href="./voirtopic.php?t='.$topic.'">'.stripslashes(htmlspecialchars($data['topic_titre'])).'</a>';
-echo '<h1>'.stripslashes(htmlspecialchars($data['topic_titre'])).'</h1><br /><br />';
+<a  href="./voirforum.php?f='.$forum.'">'.stripslashes(htmlspecialchars($data['forum_name'])).'</a>
+ --> <a  href="./voirtopic.php?t='.$topic.'">'.stripslashes(htmlspecialchars($data['topic_titre'])).'</a>';
+echo '<h1 class="text-center">'.stripslashes(htmlspecialchars($data['topic_titre'])).'</h1><br /><br />';
 ?>
+
 <?php
 //Nombre de pages
 $page = (isset($_GET['page']))?intval($_GET['page']):1;
@@ -54,19 +55,18 @@ $premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
 if (verif_auth($data['auth_post']))
 {
 //On affiche l'image répondre
-echo'<a href="./poster.php?action=repondre&amp;t='.$topic.'">
-<img src="./images/repondre.gif" alt="Répondre" title="Répondre à ce topic"></a>';
+echo'<a class="btn btn-primary ml-2 mb-2" href="./poster.php?action=repondre&amp;t='.$topic.'">Répondre
+</a>';
 }
 
 if (verif_auth($data['auth_topic']))
 {
 //On affiche l'image nouveau topic
-echo'<a href="./poster.php?action=nouveautopic&amp;f='.$data['forum_id'].'">
-<img src="./images/nouveau.gif" alt="Nouveau topic" 
-title="Poster un nouveau topic"></a>';
+echo'<a class="btn btn-primary ml-1 mb-2" href="./poster.php?action=nouveautopic&amp;f='.$data['forum_id'].'">Nouveau topic
+</a>';
 }
 
-
+echo'<div class="col-12 bglight">';
 $query->CloseCursor(); 
 //Enfin on commence la boucle !
 ?>
@@ -104,9 +104,9 @@ else
 //On commence à afficher le pseudo du créateur du message :
          //On vérifie les droits du membre
          //(partie du code commentée plus tard)
-         echo'<tr><td><strong>
-         <a href="./voirprofil.php?m='.$data['membre_id'].'&amp;action=consulter">
-         '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</a></strong></td>';
+         echo'<tr><td>
+         <a class="ml-2" href="./voirprofil.php?m='.$data['membre_id'].'&amp;action=consulter">
+         '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</a></td>';
            
          /* Si on est l'auteur du message, on affiche des liens pour
          Modérer celui-ci.
@@ -131,12 +131,12 @@ else
          }
        
          //Détails sur le membre qui a posté
-         echo'<tr><td>
-         <img src="./images/avatars/'.$data['membre_avatar'].'" alt="" />
-         <br />Membre inscrit le '.date('d/m/Y',$data['membre_inscrit']).'</td>';
+         echo'<tr><td class="border-bottom border-dark" >
+         <img class="avatar ml-2"src="'.$data['membre_avatar'].'" alt="" />
+         <div class="row ml-2 mr-3 mb-3"> Membre inscrit le '.date('d/m/Y',$data['membre_inscrit']).'</div>'.'</td>';
                
          //Message
-         echo'<td>'.code(nl2br(stripslashes(htmlspecialchars($data['post_texte'])))).'
+         echo'<td class="border-bottom border-dark">'.code(nl2br(stripslashes(htmlspecialchars($data['post_texte'])))).'
          <br /><hr />'.code(nl2br(stripslashes(htmlspecialchars($data['membre_signature'])))).'</td></tr>';
          } //Fin de la boucle ! \o/
          $query->CloseCursor();
@@ -157,5 +157,7 @@ else
 ?> 
 </div>          
 </div>
+</div>
+<?php include('includes/footer.php') ?>
 </body>
 </html>

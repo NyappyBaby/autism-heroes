@@ -1,24 +1,32 @@
 *{
-    font-family: 'Quicksand', ;
+    font-family: 'Quicksand' ;
+  
 }
 
 h1,h2,h3,h4,h5{
 
-    font-family: 'Ubuntu', ;
+    font-family: 'Ubuntu';
 }
-#banniere
-{
-width: 600px;
-height: 150px;
-background-position:  center;
-margin-bottom: 20px; 
-background-image: url('images/banniere.jpg');
+.avatar{
+    width:30%;
+   
 }
+
+.img-card{
+    width: 100%;
+  
+}
+
 
 .card{
     border: 2px solid black;
-    box-shadow: 0px 0px 5px #fcccf4;
+    box-shadow: 0px 0px 5px grey;
 }
+
+.card:hover{
+    box-shadow: 0px 0px 15px grey;
+}
+
 
 input{
     border-radius: 5px;
@@ -38,10 +46,9 @@ input{
 }
 .navbar {
     box-shadow: 0px 0px 5px #fcccf4;
-    position: fixed;
-    background-color:o	#756e6f ;
 }
 .main-image{
+   
     width: 100%;
     height: 50%;
 }
@@ -81,7 +88,13 @@ label {
 .mp_expediteur { width:10%; }
 .mp_time { width:20%; }
 
-.a{
-    color: white;
-    text-decoration: none;
+a:hover{
+    text-decoration:none;
+}
+.decoration-none{
+    color: black;
+    text-decoration:none;
+}
+.bgnav{
+    background-color:	#e3e1e1;
 }

@@ -180,7 +180,7 @@ case "nouveautopic": //Deuxième cas : on souhaite créer un nouveau topic ?>
 if (verif_auth($data['auth_annonce']))
 {
     ?>
-    <label><input type="radio" name="mess" value="Annonce" />Annonce</label>
+    
     <label><input type="radio" name="mess" value="Message" checked="checked" />Topic</label><br />
     <?php
 }

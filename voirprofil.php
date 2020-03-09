@@ -29,7 +29,7 @@ switch($action)
        profil de '.stripslashes(htmlspecialchars($data['membre_pseudo']));
        echo'<h1>Profil de '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</h1>';
        
-       echo'<img src="./images/avatars/'.$data['membre_avatar'].'"
+       echo'<img src="'.$data['membre_avatar'].'"
        alt="Ce membre n a pas d avatar" />';
        
        echo'<p><strong>Adresse E-Mail : </strong>
@@ -72,13 +72,16 @@ switch($action)
     
        
         echo '<div class="row my-5">';
-        echo '<a href="messagesprives.php"><div class="btn btn-primary">Messages Privés</div></a>'.'<a class="mt-2 ml-5" href="deconnexion.php">Déconnexion</a>';
-        echo '</div>';
-        echo '<div class="row my-5">';
-        echo '<a href="memberlist.php"><div class="btn btn-primary">Liste des membre</div></a>';
-        echo '</div>';
-        echo '<div class="row my-5">';
-        echo '<a href="amis.php"><div class="btn btn-primary">Liste des amis</div></a>';
+        if (verif_auth(ADMIN)) {
+            echo'<a class="row btn btn-primary mr-3" href="admin.php">Admin</a>';
+        };
+        echo '<a href="messagesprives.php"><div class="btn btn-dark mr-2">Messages Privés</div></a>';
+       
+        
+        echo '<a href="memberlist.php"><div class="btn btn-dark mr-2">Liste des membre</div></a>';
+     
+        
+        echo '<a href="amis.php"><div class="btn btn-dark mr-2">Liste des amis</div></a>'.'<a class="mt-2 ml-5" href="deconnexion.php">Déconnexion</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
         echo '<h1>Modifier son profil</h1>';
@@ -87,52 +90,62 @@ switch($action)
         echo '<form method="post" action="voirprofil.php?action=modifier" enctype="multipart/form-data">
        
  
-        <fieldset><legend class="text-center">Identifiants</legend>
-        
-        Pseudo : <strong>'.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</strong><br />      
-         
+        <legend class="mt-2">Identifiants</legend>
+        <div class="row my-2">
+        Pseudo : <strong>'.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</strong><br />
+        </div>      
+        <div class="row my-2">
         <label for="password">Nouveau mot de Passe :</label>
         <input type="password" name="password" id="password" /><br />
+        </div>
+        <div class="row my-2">
         <label for="confirm">Confirmer le mot de passe :</label>
         <input type="password" name="confirm" id="confirm"  />
-        </fieldset>
- 
-        <fieldset><legend>Contacts</legend>
+        </div>
+        
+        
+        <div class="row my-2">
+        <legend>Contacts</legend>
+        </div>
+        <div class="row my-2">
         <label for="email">Votre adresse E_Mail :</label>
         <input type="text" name="email" id="email"
         value="'.stripslashes($data['membre_email']).'" /><br />
- 
+        </div>
  
        
  
-        
-        <fieldset><legend>Profil sur le forum</legend>
+        <div class="row my-2">
+        <legend>Profil sur le forum</legend>
+        </div>
+        <div class="row my-2">
         <label for="avatar">Changer votre avatar :</label>
         <input type="file" name="avatar" id="avatar" />
-        (Taille max : 10 ko)<br /><br />
+        (Taille max : 50 mo)<br /><br />
+        </div>
+        <div class="row my-2">
         <label><input type="checkbox" name="delete" value="Delete" />
         Supprimer l avatar</label>
         Avatar actuel :
-        <img src="./images/avatars/'.$data['membre_avatar'].'"
+        <img src="'.$data['membre_avatar'].'"
         alt="pas d avatar" />
-     
-        <br /><br />
+        </div>
+        <div class="row my-2">
         <label for="signature">Signature :</label>
         <textarea cols="40" rows="4" name="signature" id="signature">
         '.stripslashes($data['membre_signature']).'</textarea>
+        </div>
      
      
-        </fieldset>
+        <div class="row my-2">
         <p>
         <input type="submit" value="Modifier son profil" />
         <input type="hidden" id="sent" name="sent" value="1" />
-        </p></form>';
+        </p></div></form>';
         $query->CloseCursor();   
       
         echo '</div>';
-        if (verif_auth(ADMIN)) {
-            echo'<a class="btn" href="admin.php">Admin</a>';
-        };
+        
     }  
 
   

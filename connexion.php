@@ -38,6 +38,9 @@ if (!isset($_POST['pseudo']) && !isset($_POST['password'])) //On est dans la pag
 	<div  class="row justify-content-center">
 	<a href="./register.php">Pas encore inscrit ?</a>
 	</div>
+	<div  class="row justify-content-center">
+	<a href="./passoublier.php">Mot de passe oublié?</a>
+	</div>
 	 
 	</div>
 	</body>
