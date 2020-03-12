@@ -7,6 +7,8 @@ include("includes/debut.php");
 include("includes/bbcode.php");
 include("includes/menu.php");
 
+
+date_default_timezone_set('Europe/Paris');
 $action = (isset($_GET['action']))?htmlspecialchars($_GET['action']):'';
 
 ?>
@@ -66,7 +68,7 @@ break;
     <?php
         
     //Ici des infos sur le membre qui a envoyé le mp
-    echo'<p><img src="./images/avatars/'.$data['membre_avatar'].'" alt="" />
+    echo'<p><img src="'.$data['membre_avatar'].'" alt="" />
     <br />Membre inscrit le '.date('d/m/Y',$data['membre_inscrit']).'
     </td><td>';
         
@@ -78,10 +80,9 @@ break;
     {
         $query->CloseCursor();
         $query=$db->prepare('UPDATE forum_mp 
-        SET mp_lu = :lu
+        SET mp_lu = mp_lu + 1
         WHERE mp_id= :id');
         $query->bindValue(':id',$id_mess, PDO::PARAM_INT);
-        $query->bindValue(':lu','1', PDO::PARAM_INT);
         $query->execute();
         $query->CloseCursor();
     }
@@ -107,16 +108,28 @@ case "nouveau": //Nouveau mp
    <input type="button" id="souligné" name="souligné" value="Souligné" onClick="javascript:bbcode('[s]', '[/s]');return(false)" />
    <input type="button" id="lien" name="lien" value="Lien" onClick="javascript:bbcode('[url]', '[/url]');return(false)" />
    <br /><br />
-   <img src="./images/smileys/heureux.gif" title="heureux" alt="heureux" onClick="javascript:smilies(':D');return(false)" />
-   <img src="./images/smileys/lol.gif" title="lol" alt="lol" onClick="javascript:smilies(':lol:');return(false)" />
-   <img src="./images/smileys/triste.gif" title="triste" alt="triste" onClick="javascript:smilies(':triste:');return(false)" />
-   <img src="./images/smileys/cool.gif" title="cool" alt="cool" onClick="javascript:smilies(':frime:');return(false)" />
-   <img src="./images/smileys/rire.gif" title="rire" alt="rire" onClick="javascript:smilies('XD');return(false)" />
-   <img src="./images/smileys/confus.gif" title="confus" alt="confus" onClick="javascript:smilies(':s');return(false)" />
-   <img src="./images/smileys/choc.gif" title="choc" alt="choc" onClick="javascript:smilies(':O');return(false)" />
-   <img src="./images/smileys/question.gif" title="?" alt="?" onClick="javascript:smilies(':interrogation:');return(false)" />
-   <img src="./images/smileys/exclamation.gif" title="!" alt="!" onClick="javascript:smilies(':exclamation:');return(false)" />
-
+   <img src="./css/images/smileys/heureux.png" title="heureux" alt="heureux" onClick="javascript:smilies(' :D ');return(false)" />
+    <img src="./css/images/smileys/rire.gif" title="lol" alt="lol" onClick="javascript:smilies(' :lol: ');return(false)" />
+    <img src="./css/images/smileys/pleure.png" title="triste" alt="triste" onClick="javascript:smilies(' :triste: ');return(false)" />
+    <img src="./css/images/smileys/soleil.png" title="cool" alt="cool" onClick="javascript:smilies(' :frime: ');return(false)" />
+    <img src="./css/images/smileys/hihi.png" title="rire" alt="rire" onClick="javascript:smilies(' XD ');return(false)" />
+    <img src="./css/images/smileys/blink.gif" title="confus" alt="confus" onClick="javascript:smilies(' :s ');return(false)" />
+    <img src="./css/images/smileys/waw.png" title="choc" alt="choc" onClick="javascript:smilies(' :o ');return(false)" />
+    <img src="./css/images/smileys/angry.gif" title="angry" alt="angry" onClick="javascript:smilies(' :angry: ');return(false)" />
+    <img src="./css/images/smileys/siffle.png" title="siffle" alt="siffle" onClick="javascript:smilies(' :siffle: ');return(false)" />
+    <img src="./css/images/smileys/langue.png" title="langue" alt="langue" onClick="javascript:smilies(' :langue: ');return(false)" />
+    <img src="./css/images/smileys/clin.png" title="clin" alt="clin" onClick="javascript:smilies(' :clin: ');return(false)" />
+    <img src="./css/images/smileys/ange.png" title="ange" alt="ange" onClick="javascript:smilies(' :ange: ');return(false)" />
+    <img src="./css/images/smileys/diable.png" title="diable" alt="diable" onClick="javascript:smilies(' :diable: ');return(false)" />
+    <img src="./css/images/smileys/huh.png" title="huh" alt="huh" onClick="javascript:smilies(' :huh: ');return(false)" />
+    <img src="./css/images/smileys/magicien.png" title="magicien" alt="magicien" onClick="javascript:smilies(' :magicien: ');return(false)" />
+    <img src="./css/images/smileys/mechant.png" title="mechant" alt="mechant" onClick="javascript:smilies(' :mechant: ');return(false)" />
+    <img src="./css/images/smileys/ninja.png" title="ninja" alt="ninja" onClick="javascript:smilies(' :ninja: ');return(false)" />
+    <img src="./css/images/smileys/pinch.png" title="pinch" alt="pinch" onClick="javascript:smilies(' :pinch: ');return(false)" />
+    <img src="./css/images/smileys/pirate.png" title="pirate" alt="pirate" onClick="javascript:smilies(' :pirate: ');return(false)" />
+    <img src="./css/images/smileys/rouge.png" title="rouge" alt="rouge" onClick="javascript:smilies(' :rouge: ');return(false)" />
+    <img src="./css/images/smileys/unsure.gif" title="unsure" alt="unsure" onClick="javascript:smilies(' :unsure: ');return(false)" />
+    <img src="./css/images/smileys/zorro.png" title="zorro" alt="zorro" onClick="javascript:smilies(' :zorro: ');return(false)" /> 
    <textarea cols="80" rows="8" id="message" name="message"></textarea>
    <br />
    <input type="submit" name="submit" value="Envoyer" />
@@ -141,16 +154,28 @@ case "repondre": //On veut répondre
    <input type="button" id="souligné" name="souligné" value="Souligné" onClick="javascript:bbcode('[s]', '[/s]');return(false)" />
    <input type="button" id="lien" name="lien" value="Lien" onClick="javascript:bbcode('[url]', '[/url]');return(false)" />
    <br /><br />
-   <img src="./images/smileys/heureux.gif" title="heureux" alt="heureux" onClick="javascript:smilies(':D');return(false)" />
-   <img src="./images/smileys/lol.gif" title="lol" alt="lol" onClick="javascript:smilies(':lol:');return(false)" />
-   <img src="./images/smileys/triste.gif" title="triste" alt="triste" onClick="javascript:smilies(':triste:');return(false)" />
-   <img src="./images/smileys/cool.gif" title="cool" alt="cool" onClick="javascript:smilies(':frime:');return(false)" />
-   <img src="./images/smileys/rire.gif" title="rire" alt="rire" onClick="javascript:smilies('XD');return(false)" />
-   <img src="./images/smileys/confus.gif" title="confus" alt="confus" onClick="javascript:smilies(':s');return(false)" />
-   <img src="./images/smileys/choc.gif" title="choc" alt="choc" onClick="javascript:smilies(':O');return(false)" />
-   <img src="./images/smileys/question.gif" title="?" alt="?" onClick="javascript:smilies(':interrogation:');return(false)" />
-   <img src="./images/smileys/exclamation.gif" title="!" alt="!" onClick="javascript:smilies(':exclamation:');return(false)" />
-
+   <img src="./css/images/smileys/heureux.png" title="heureux" alt="heureux" onClick="javascript:smilies(' :D ');return(false)" />
+    <img src="./css/images/smileys/rire.gif" title="lol" alt="lol" onClick="javascript:smilies(' :lol: ');return(false)" />
+    <img src="./css/images/smileys/pleure.png" title="triste" alt="triste" onClick="javascript:smilies(' :triste: ');return(false)" />
+    <img src="./css/images/smileys/soleil.png" title="cool" alt="cool" onClick="javascript:smilies(' :frime: ');return(false)" />
+    <img src="./css/images/smileys/hihi.png" title="rire" alt="rire" onClick="javascript:smilies(' XD ');return(false)" />
+    <img src="./css/images/smileys/blink.gif" title="confus" alt="confus" onClick="javascript:smilies(' :s ');return(false)" />
+    <img src="./css/images/smileys/waw.png" title="choc" alt="choc" onClick="javascript:smilies(' :o ');return(false)" />
+    <img src="./css/images/smileys/angry.gif" title="angry" alt="angry" onClick="javascript:smilies(' :angry: ');return(false)" />
+    <img src="./css/images/smileys/siffle.png" title="siffle" alt="siffle" onClick="javascript:smilies(' :siffle: ');return(false)" />
+    <img src="./css/images/smileys/langue.png" title="langue" alt="langue" onClick="javascript:smilies(' :langue: ');return(false)" />
+    <img src="./css/images/smileys/clin.png" title="clin" alt="clin" onClick="javascript:smilies(' :clin: ');return(false)" />
+    <img src="./css/images/smileys/ange.png" title="ange" alt="ange" onClick="javascript:smilies(' :ange: ');return(false)" />
+    <img src="./css/images/smileys/diable.png" title="diable" alt="diable" onClick="javascript:smilies(' :diable: ');return(false)" />
+    <img src="./css/images/smileys/huh.png" title="huh" alt="huh" onClick="javascript:smilies(' :huh: ');return(false)" />
+    <img src="./css/images/smileys/magicien.png" title="magicien" alt="magicien" onClick="javascript:smilies(' :magicien: ');return(false)" />
+    <img src="./css/images/smileys/mechant.png" title="mechant" alt="mechant" onClick="javascript:smilies(' :mechant: ');return(false)" />
+    <img src="./css/images/smileys/ninja.png" title="ninja" alt="ninja" onClick="javascript:smilies(' :ninja: ');return(false)" />
+    <img src="./css/images/smileys/pinch.png" title="pinch" alt="pinch" onClick="javascript:smilies(' :pinch: ');return(false)" />
+    <img src="./css/images/smileys/pirate.png" title="pirate" alt="pirate" onClick="javascript:smilies(' :pirate: ');return(false)" />
+    <img src="./css/images/smileys/rouge.png" title="rouge" alt="rouge" onClick="javascript:smilies(' :rouge: ');return(false)" />
+    <img src="./css/images/smileys/unsure.gif" title="unsure" alt="unsure" onClick="javascript:smilies(' :unsure: ');return(false)" />
+    <img src="./css/images/smileys/zorro.png" title="zorro" alt="zorro" onClick="javascript:smilies(' :zorro: ');return(false)" /> 
    <br /><br />
    <textarea cols="80" rows="8" id="message" name="message"></textarea>
    <br />

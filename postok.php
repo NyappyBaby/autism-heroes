@@ -41,8 +41,8 @@ switch($action)
         //On entre le topic dans la base de donnée
       
         $query=$db->prepare('INSERT INTO forum_topic
-        (forum_id, topic_titre, topic_createur, topic_vu, topic_time, topic_genre)
-        VALUES(:forum, :titre, :id, 1, :temps, :mess)');
+        (forum_id, topic_titre, topic_createur, topic_vu, topic_time, topic_post, topic_genre)
+        VALUES(:forum, :titre, :id, 1, :temps, 0, :mess)');
         $query->bindValue(':forum', $forum, PDO::PARAM_INT);
         $query->bindValue(':titre', $titre, PDO::PARAM_STR);
         $query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -73,10 +73,8 @@ switch($action)
    
 
         //Enfin on met à jour les tables forum_forum et forum_membres
-        $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post + 1 ,forum_topic = forum_topic + 1, 
-        forum_last_post_id = :nouveaupost
-        WHERE forum_id = :forum');
-        $query->bindValue(':nouveaupost', (int) $nouveaupost, PDO::PARAM_INT);    
+        $query=$db->prepare('UPDATE forum_forum SET forum_topic = forum_topic + 1
+        WHERE forum_id = :forum');  
         $query->bindValue(':forum', (int) $forum, PDO::PARAM_INT);
         $query->execute();
         $query->CloseCursor();
@@ -106,7 +104,7 @@ switch($action)
     {
 
         //On récupère l'id du forum
-        $query=$db->prepare('SELECT forum_id FROM forum_topic WHERE topic_id = :topic');
+        $query=$db->prepare('SELECT forum_id, topic_post FROM forum_topic WHERE topic_id = :topic');
         $query->bindValue(':topic', $topic, PDO::PARAM_INT);    
         $query->execute();
         $data=$query->fetch();
@@ -126,8 +124,17 @@ switch($action)
         $nouveaupost = $db->lastInsertId();
         $query->CloseCursor(); 
 
+        $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post + 1  WHERE forum_id = :forum'); 
+        $query->bindValue(':forum', (int) $forum, PDO::PARAM_INT); 
+        $query->execute();
+        $query->CloseCursor(); 
+
+
         //On change un peu la table forum_topic
-     
+        $query=$db->prepare('UPDATE forum_topic SET topic_post = topic_post + 1  WHERE topic_id = :topic');
+        $query->bindValue(':topic', (int) $topic, PDO::PARAM_INT); 
+        $query->execute();
+        $query->CloseCursor(); 
 
         //Puis même combat sur les 2 autres tables
      
@@ -295,11 +302,15 @@ case "delete": //Si on veut supprimer le post
             $query->CloseCursor();
                        
             //On enlève 1 au nombre de messages du forum
-            $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post - 1  WHERE forum_id = :forum');
-            $query->bindValue(':forum',$forum,PDO::PARAM_INT);
+            $query=$db->prepare('UPDATE forum_topic SET topic_post = topic_post - 1  WHERE topic_id = :topic');
+            $query->bindValue(':topic',$topic,PDO::PARAM_INT);
             $query->execute();
             $query->CloseCursor(); 
                         
+            $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post -1  WHERE forum_id = :forum'); 
+            $query->bindValue(':forum', (int) $forum, PDO::PARAM_INT); 
+            $query->execute();
+            $query->CloseCursor(); 
         
             //Enfin le message
             echo'<p>Le message a bien été supprimé !<br />
@@ -309,7 +320,6 @@ case "delete": //Si on veut supprimer le post
                
      //Fin du else
 break;
-
 
 ?>
 

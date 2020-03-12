@@ -25,18 +25,22 @@ require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\SMTP.php'
 
 //Récuperer email depuis variable $_POST
 $email = $_POST['email'];
-//Verification existance de l'email sur la base de données
+//Verification existence de l'email sur la base de données
 $query=$db->prepare("SELECT COUNT(*) FROM forum_membres WHERE membre_email = :email");
 $query->bindValue(':email', $email, PDO::PARAM_STR);
+$email=($query->fetchColumn()==0)?1:0;
 $query->execute();
 $data=$query->fetch();
 
 $token = uniqid();
 //Si le mail existe
-if($data['membre_email'] == 1){
+if(!$email){
 //Génerer un token unique et le stocker dans la base de données
-$query=$db->prepare("INSERT INTO token FROM forum_membres WHERE token = :token");
+$query=$db->prepare("INSERT INTO password_recovery(token,created,expired,id_user) VALUES (':token', ':created',':expired',:iduser')");
 $query->bindValue(':token', $token, PDO::PARAM_STR);
+$query->bindValue(':created', $created, PDO::PARAM_STR);
+$query->bindValue(':expired', $expired, PDO::PARAM_STR);
+$query->bindValue(':iduser', $id_user, PDO::PARAM_INT);
 $query->execute();
 //Créer le message a envoyer par mail avec un lien menant vers la page permettant la modification de mot de passe
 //Envoyer le mail
@@ -47,7 +51,7 @@ $username         = 'testchiantemail@gmail.com';
 $password         = 'Vanna30032012';
 echo 'Welcome to Laragon Mail Analyzer...';
 $subject          = 'Inscription';
-$body             = '<p>Veuillez suivre le lien suivant pour modifier le mot de passe : <a href="localhost/autism-heroesV3/forget.php?'.$token.'Ici</a></p>';
+$body             = '<p>Veuillez suivre le lien suivant pour modifier le mot de passe : <a href="localhost/autism-heroesV3/forget.php?'.$token.'>Ici</a></p>';
 
 $mail->IsSMTP();
 $mail->SMTPOptions = array(

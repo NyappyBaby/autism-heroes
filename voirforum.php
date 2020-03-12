@@ -23,7 +23,7 @@ erreur(ERR_AUTH_VIEW);
 
 
 $totalDesMessages = $data['forum_topic'] + 1;
-$nombreDeMessagesParPage = 25;
+$nombreDeMessagesParPage = 15;
 $nombreDePages = ceil($totalDesMessages / $nombreDeMessagesParPage);
 ?>
 <?php
@@ -66,85 +66,19 @@ echo'<a class="btn btn-primary" href="./poster.php?action=nouveautopic&amp;f='.$
 }
 $query->CloseCursor();
 ?>
-<?php
-//On prend tout ce qu'on a sur les Annonces du forum
-       
 
-$query=$db->prepare('SELECT forum_topic.topic_id, topic_titre, topic_createur, topic_vu,topic_time,
-Mb.membre_pseudo AS membre_pseudo_createur, post_createur, post_time, Mb.membre_pseudo AS membre_pseudo_last_posteur, forum_topic.topic_id FROM forum_topic 
-LEFT JOIN forum_membres Mb ON Mb.membre_id = forum_topic.topic_createur
-LEFT JOIN forum_post ON forum_topic.topic_titre = forum_post.post_id
-LEFT JOIN forum_membres Ma ON Ma.membre_id = forum_post.post_createur    
-WHERE topic_genre = "Annonce" AND forum_topic.forum_id = :forum 
-');
-$query->bindValue(':forum',$forum,PDO::PARAM_INT);
-$query->execute();
-?>
-<?php
-//On lance notre tableau seulement s'il y a des requêtes !
-if ($query->rowCount()>0)
-{
-        ?>
-        <table>   
-        <tr>
-        <th><img src="./images/annonce.gif" alt="Annonce" /></th>
-        <th class="titre"><strong>Titre</strong></th>             
-        <th class="nombremessages"><strong>Réponses</strong></th>
-        <th class="nombrevu"><strong>Vus</strong></th>
-        <th class="auteur"><strong>Auteur</strong></th>                       
-        <th class="derniermessage"><strong>Dernier message</strong></th>
-        </tr>   
-       
-        <?php
-        //On commence la boucle
-        while ($data=$query->fetch())
-        {
-                //Pour chaque topic :
-                //Si le topic est une annonce on l'affiche en haut
-                //mega echo de bourrain pour tout remplir
-               
-                echo'<tr><td><img src="./images/annonce.gif" alt="Annonce" /></td>
-
-                <td id="titre"><strong>Annonce : </strong>
-                <strong><a href="./voirtopic.php?t='.$data['topic_id'].'"                 
-                title="Topic commencé à
-                '.date('H\hi \l\e d M,y',$data['topic_time']).'">
-                '.stripslashes(htmlspecialchars($data['topic_titre'])).'</a></strong></td>
-
-
-                <td class="nombrevu">'.$data['topic_vu'].'</td>
-
-                <td><a href="./voirprofil.php?m='.$data['topic_createur'].'
-                &amp;action=consulter">
-                '.stripslashes(htmlspecialchars($data['membre_pseudo_createur'])).'</a></td>';
-
-               	//Selection dernier message
-		$nombreDeMessagesParPage = 15;
-		
-		
-
-                echo '<td class="derniermessage">Par
-                <a href="./voirprofil.php?m='.$data['post_createur'].'
-                &amp;action=consulter">
-                '.stripslashes(htmlspecialchars($data['membre_pseudo_createur'])).'</a><br />
-                A <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.$page.'#p_">'.date('H\hi \l\e d M y',$data['post_time']).'</a></td></tr>';
-        }
-        ?>
-        </table>
-        <?php
-}
-$query->CloseCursor();
-?>
 <?php
 //On prend tout ce qu'on a sur les topics normaux du forum
 
 
-$query=$db->prepare('SELECT forum_topic.topic_id, topic_titre, topic_createur, topic_vu, topic_time,
+$query=$db->prepare('SELECT forum_topic.topic_id, topic_post, topic_titre, topic_createur, topic_vu, topic_time,
 Mb.membre_pseudo AS membre_pseudo_createur, forum_post.post_id, forum_post.post_createur, forum_post.post_time, Ma.membre_pseudo AS membre_pseudo_last_posteur FROM forum_topic
 LEFT JOIN forum_membres Mb ON Mb.membre_id = forum_topic.topic_createur
-LEFT JOIN forum_post ON forum_topic.topic_titre = forum_post.post_id
+LEFT JOIN forum_post ON forum_topic.topic_id = forum_post.post_id
 LEFT JOIN forum_membres Ma ON Ma.membre_id = forum_post.post_createur   
 WHERE  forum_topic.forum_id = :forum
+
+ORDER BY post_time DESC
 LIMIT :premier ,:nombre');
 $query->bindValue(':forum',$forum,PDO::PARAM_INT);
 $query->bindValue(':premier',(int) $premierMessageAafficher,PDO::PARAM_INT);
@@ -158,9 +92,10 @@ if ($query->rowCount()>0)
         <tr>
         <th></th>
         <th class="titre"><strong>Titre</strong></th>             
-   
+        <th class="reponses"><strong>Réponses </strong></th>    
         <th class="nombrevu"><strong>Vus</strong></th>
-        <th class="auteur"><strong>Auteur</strong></th>                       
+        <th class="auteur"><strong>Auteur</strong></th>
+                           
         <th class="derniermessage"><strong>Dernier message  </strong></th>
         </tr>
         <?php
@@ -169,17 +104,19 @@ if ($query->rowCount()>0)
         while ($data = $query->fetch())
         {
                 //Ah bah tiens... re vla l'echo de fou
-                echo'<tr><td></td>
-
+                echo'
+                <div class="row justify-content-center"><tr><td></td>
+                
                 <td class="titre">
                 <strong><a href="./voirtopic.php?t='.$data['topic_id'].'"                 
                 title="Topic commencé à
                 '.date('H\hi \l\e d M,y',$data['topic_time']).'">
                 '.stripslashes(htmlspecialchars($data['topic_titre'])).'</a></strong></td>
 
-                
+                <td class="reponses">'.$data['topic_post'].'</td>
 
                 <td class="nombrevu">'.$data['topic_vu'].'</td>
+            
 
                 <td><a href="./voirprofil.php?m='.$data['topic_createur'].'
                 &amp;action=consulter">
@@ -195,12 +132,15 @@ if ($query->rowCount()>0)
                 <a href="./voirprofil.php?m='.$data['topic_createur'].'
                 &amp;action=consulter">
                 '.stripslashes(htmlspecialchars($data['membre_pseudo_last_posteur'])).'</a><br />
-                A <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.$page.'#p_'.$data['post_id'].'">'.date('H\hi \l\e d M y',$data['topic_time']).'
-                </td></tr>'.'</a></td></tr>';
-
+                A <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.$page.'#p_'.$data['post_id'].'">'.date('H\hi \l\e d M y',$data['post_time']).'
+                </td></tr>'.'</a></td></tr></div>';
+                
         }
+
+      
         ?>
         </table>
+        
         <?php
 }
 else //S'il n'y a pas de message

@@ -166,9 +166,9 @@ $pseudo_free=($query->fetchColumn()==0)?1:0;
     if (!empty($_FILES['avatar']['size']))
     {
         //On définit les variables :
-        $maxsize = 10024; //Poid de l'image
-        $maxwidth = 100; //Largeur de l'image
-        $maxheight = 100; //Longueur de l'image
+        $maxsize = 50000; //Poid de l'image
+        $maxwidth = 1500; //Largeur de l'image
+        $maxheight = 2000; //Longueur de l'image
         $extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png', 'bmp' ); //Liste des extensions valides
         
         if ($_FILES['avatar']['error'] > 0)
@@ -247,6 +247,8 @@ $pseudo_free=($query->fetchColumn()==0)?1:0;
 
 <label>Se souvenir de moi ?</label><input type="checkbox" name="souvenir" /><br />
 <?php
+
+if(!$i || !$pseudo_erreur1 || !$pseudo_erreur2 || !$mdp_erreur || !$email_erreur1 || !$email_erreur2 || !$signature_erreur || !$avatar_erreur || !$avatar_erreur2 || !$avatar_erreur3) {
 //Message
 $message = "Bienvenue sur le site autism-heroes, votre inscription est bien prise en compte!";
 //Titre
@@ -290,6 +292,9 @@ if(!$mail->Send()) {
   echo 'Message sent successfully!';
 }
 
+} else {
+    echo'erreur'; 
+}
 ?>
 <?php endif; ?>
 </div>

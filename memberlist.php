@@ -54,28 +54,12 @@ if (isset ($_POST['t'])) $tri = $convert_tri[$_POST['t']];
 else $tri = $convert_tri[0];
 
 ?>
-<form action="memberlist.php" method="post">
-<p><label for="s">Trier par : </label>
 
-<select name="s" id="s">
-<option value="0" name="0">Pseudo</option>
-<option value="1" name="1">Inscription</option>
-<option value="2" name="2">Messages</option>
-<option value="3" name="3">Dernière visite</option>
-</select>
-
-<select name="t" id="t">
-<option value="0" name="0">Croissant</option>
-<option value="1" name="1">Décroissant</option>
-</select>
-<input type="submit" value="Trier" /></p>
-</form>
 <?php
 //Requête
 
 $query = $db->prepare('SELECT membre_id, membre_pseudo, membre_inscrit, membre_derniere_visite
 FROM forum_membres
-
 LIMIT :premier, :membreparpage');
 $query->bindValue(':premier',$premier,PDO::PARAM_INT);
 $query->bindValue(':membreparpage',$MembreParPage, PDO::PARAM_INT);
@@ -87,9 +71,9 @@ if ($query->rowCount() > 0)
        <table>
        <tr>
        <th class="pseudo"><strong>Pseudo</strong></th>             
-       <th class="posts"><strong>Messages</strong></th>
+     
        <th class="inscrit"><strong>Inscrit depuis le</strong></th>
-       <th class="derniere_visite"><strong>Dernière visite</strong></th>                       
+                          
        <th><strong>Connecté</strong></th>             
 
        </tr>
@@ -102,10 +86,9 @@ if ($query->rowCount() > 0)
            <a href="./voirprofil.php?m='.$data['membre_id'].'&amp;action=consulter">
            '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</a></td>
          
-           <td>'.date('d/m/Y',$data['membre_inscrit']).'</td>
-           <td>'.date('d/m/Y',$data['membre_derniere_visite']).'</td>';
-           if (empty($data['online_id'])) echo '<td>non</td>'; 
-           else echo '<td>oui</td>';
+           <td>'.date('d/m/Y',$data['membre_inscrit']).'</td>';
+           if ($id!=0) echo '<td>oui</td>'; 
+           else echo '<td>non</td>';
            echo '</tr>';
        }
        $query->CloseCursor();

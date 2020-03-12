@@ -16,6 +16,7 @@ switch($cat) //1er switch
 {
  
     case "config":
+        
         //ici configuration
         echo'<h1>Configuration du forum</h1>';
         echo '<form method="post" action="adminok.php?cat=config">';
@@ -405,20 +406,8 @@ $action = htmlspecialchars($_GET['action']); //On récupère la valeur de action
 		<label for="email">Adresse E_Mail :</label>
 		<input type = "text" name="email" id="email"
 		value="<?php echo stripslashes(htmlspecialchars($data['membre_email'])) ?>" /><br />
-		<label for="msn">Adresse MSN :</label>
-		<input type = "text" name="msn" id="msn"
-		value="<?php echo stripslashes(htmlspecialchars($data['membre_msn'])) ?>" /><br />
-		<label for="website">Site web :</label>
-		<input type = "text" name="website" id="website"
-		value="<?php echo stripslashes(htmlspecialchars($data['membre_siteweb'])) ?>"/><br />
 		</fieldset>
 
-		<fieldset><legend>Informations supplémentaire</legend>
-		<label for="localisation">Localisation :</label>
-		<input type = "text" name="localisation" id="localisation"
-		value="<?php echo stripslashes(htmlspecialchars($data['membre_localisation'])) ?>" />
-		<br />
-		</fieldset>
 			   
 		<fieldset><legend>Profil sur le forum</legend>
 		<label for="avatar">Changer l avatar :</label>
@@ -427,7 +416,7 @@ $action = htmlspecialchars($_GET['action']); //On récupère la valeur de action
 		<label><input type="checkbox" name="delete" value="Delete" /> Supprimer l avatar</label>
 		Avatar actuel :
 		<?php echo'
-		<img src="./images/avatars/'.$data['membre_avatar'].'" alt="pas d avatar" />' ?>
+		<img src="'.$data['membre_avatar'].'" alt="pas d avatar" />' ?>
 		 
 		<br /><br />
 		<label for="signature">Signature :</label>

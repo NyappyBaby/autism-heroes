@@ -21,8 +21,10 @@ case "config":
     echo'<h1>Configuration du forum</h1>';
     //On récupère les valeurs et le nom de chaque entrée de la table
     $query=$db->query('SELECT config_nom, config_valeur FROM forum_config');
+    $query->execute();
+    $data=$query->fetch();
     //Avec cette boucle, on va pouvoir contrôler le résultat pour voir s'il a changé
-    while($data = $query->fetch(PDO::FETCH_ASSOC))
+    while($data = $query->fetch())
     {
         if ($data['config_valeur'] != $_POST[$data['config_nom']])
 	{
@@ -56,8 +58,8 @@ case "forum":
 	    $cat = (int) $_POST['cat'];
 
 	
-	    $query=$db->prepare('INSERT INTO forum_forum (forum_cat_id, forum_name, forum_desc) 
-	    VALUES (:cat, :titre, :desc)');
+	    $query=$db->prepare('INSERT INTO forum_forum (forum_cat_id, forum_name, forum_desc, forum_last_post_id, forum_topic, forum_post, auth_view, auth_post, auth_topic, auth_annonce, auth_modo) 
+	    VALUES (:cat, :titre, :desc, 0, 0, 0,0,0,0,0,0)');
             $query->bindValue(':cat',$cat,PDO::PARAM_INT);
             $query->bindValue(':titre',$titre, PDO::PARAM_STR);
             $query->bindValue(':desc',$desc,PDO::PARAM_STR);
@@ -70,7 +72,7 @@ case "forum":
         elseif ($_GET['c'] == "c")
         {
             $titre = $_POST['nom'];
-            $query=$db->prepare('INSERT INTO forum_categorie (cat_nom) VALUES (:titre)');
+            $query=$db->prepare('INSERT INTO forum_categorie (cat_nom, cat_ordre) VALUES (:titre, 0)');
             $query->bindValue(':titre',$titre, PDO::PARAM_STR); 
             $query->execute();          
             echo'<p>La catégorie a été créée !<br /> Cliquez <a href="./admin.php">ici</a> 

@@ -10,10 +10,12 @@ include("includes/menu.php");
 
 
 ?>
-<?php 
-
-
-?>
+<div class="row">
+    <div class="col-12">
+        <img  class="imgnews" src="./css/images/informations.png" alt="news">
+    </div>
+</div>
+<h1 class="text-center main-titre">Retrouvez les différents articles ci-dessous</h1>
 <?php
 
 

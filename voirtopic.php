@@ -13,7 +13,7 @@ $topic = (int) $_GET['t'];
 
 
 //A partir d'ici, on va compter le nombre de messages pour n'afficher que les 15 premiers
-$query=$db->prepare('SELECT topic_titre, forum_topic.forum_id,
+$query=$db->prepare('SELECT topic_titre, topic_post, forum_topic.forum_id,
 forum_name, auth_view, auth_topic, auth_post 
 FROM forum_topic 
 LEFT JOIN forum_forum ON forum_topic.forum_id = forum_forum.forum_id 
@@ -32,6 +32,8 @@ if (!verif_auth($data['auth_view']))
 
 $forum=$data['forum_id']; 
 $nombreDeMessagesParPage = 15;
+$totalDesMessages = $data['topic_post'] + 1;
+$nombreDePages = ceil($totalDesMessages / $nombreDeMessagesParPage);
 
 ?>
 <?php
@@ -47,8 +49,20 @@ echo '<h1 class="text-center">'.stripslashes(htmlspecialchars($data['topic_titre
 $page = (isset($_GET['page']))?intval($_GET['page']):1;
 
 //On affiche les pages 1-2-3 etc...
-
- 
+echo '<p>Page : ';
+for ($i = 1 ; $i <= $nombreDePages ; $i++)
+{
+    if ($i == $page) //On affiche pas la page actuelle en lien
+    {
+    echo $i;
+    }
+    else
+    {
+    echo '<a href="voirtopic.php?t='.$topic.'&page='.$i.'">
+    ' . $i . '</a> ';
+    }
+}
+echo'</p>';
 $premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
 
 
@@ -71,7 +85,7 @@ $query->CloseCursor();
 //Enfin on commence la boucle !
 ?>
 <?php
-$query=$db->prepare('SELECT post_id , post_createur , post_texte , post_time ,
+$query=$db->prepare('SELECT post_id ,post_createur , post_texte , post_time ,
 membre_id, membre_pseudo, membre_inscrit, membre_avatar,membre_signature
 FROM forum_post
 LEFT JOIN forum_membres ON forum_membres.membre_id = forum_post.post_createur
@@ -113,15 +127,13 @@ else
          Les modérateurs pourront aussi le faire, il faudra donc revenir sur
          ce code un peu plus tard ! */     
    
-         if ($id == $data['post_createur'])
+         if ($id == $data['post_createur'] || verif_auth(ADMIN) || verif_auth(MODO))
          {
          echo'<td id=p_'.$data['post_id'].'>Posté à '.date('H\hi \l\e d M y',$data['post_time']).'
-         <a href="./poster.php?p='.$data['post_id'].'&amp;action=delete">
-         <img src="./images/supprimer.gif" alt="Supprimer"
-         title="Supprimer ce message" /></a>   
-         <a href="./poster.php?p='.$data['post_id'].'&amp;action=edit">
-         <img src="./images/editer.gif" alt="Editer"
-         title="Editer ce message" /></a></td></tr>';
+         <a class="btn btn-primary" href="./poster.php?p='.$data['post_id'].'&amp;action=delete">
+         Supprimer</a>   
+         <a class="btn btn-primary" href="./poster.php?p='.$data['post_id'].'&amp;action=edit">
+         Editer</a></td></tr>';
          }
          else
          {

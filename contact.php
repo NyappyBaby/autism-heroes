@@ -1,3 +1,20 @@
+<?php
+session_start();
+$titre="Enregistrement";
+include("includes/identifiants.php");
+include("includes/debut.php");
+include("includes/menu.php");
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'vendor/autoload.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\Exception.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\PHPMailer.php';
+require 'C:\laragon\www\autism-heroesV3\vendor\phpmailer\phpmailer\src\SMTP.php';
+?>
+
+
 <!doctype html>
 <html>
 <head>
@@ -8,11 +25,17 @@
 <body>
     <h1>Contact</h1>
     <form method="post">
+        <div class="container">
+        <div class="row">
         <label>Email</label>
         <input type="email" name="email" required><br>
+</div>
+<div class="row">
         <label>Message</label>
         <textarea name="message" required></textarea><br>
+</div>
         <input type="submit">
+</div>
     </form>
     <?php
     if (isset($_POST['message'])) {

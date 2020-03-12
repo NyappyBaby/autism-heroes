@@ -6,6 +6,8 @@ include("includes/debut.php");
 include("includes/menu.php");
 $action = isset($_GET['action'])?htmlspecialchars($_GET['action']):'';
 
+
+date_default_timezone_set('Europe/Paris');
 echo '<p><i>Vous êtes ici</i> : <a href="./index.php">Index du forum</a> --> <a href="./amis.php">Gestion des amis</a>';
 if ($id==0) erreur(ERR_IS_CO);
  
@@ -29,8 +31,8 @@ switch($action)
         $pseudo_d = $_POST['pseudo'];
         //On vérifie que le pseudo renvoit bien quelque chose :o
 
-        $query=$db->prepare('SELECT membre_pseudo, COUNT(*) AS nbr FROM forum_membres 
-        WHERE membre_pseudo = :pseudo GROUP BY membre_pseudo');
+        $query=$db->prepare('SELECT membre_id, membre_pseudo, COUNT(*) AS nbr FROM forum_membres 
+        WHERE membre_pseudo = :pseudo GROUP BY membre_id');
         $query->bindValue(':pseudo',strtolower($pseudo_d),PDO::PARAM_STR);
         $query->execute();
         $data = $query->fetch();
@@ -87,7 +89,7 @@ switch($action)
         if (empty($add))
         {
             $query = $db->prepare('SELECT ami_from, ami_date, membre_pseudo FROM forum_amis
-            LEFT JOIN forum_membres ON membre_id = ami_from
+            LEFT JOIN forum_membres ON membre_pseudo = ami_from
             WHERE ami_to = :id AND ami_confirm = :conf
             ORDER BY ami_date DESC');
             $query->bindValue(':id',$id,PDO::PARAM_INT);

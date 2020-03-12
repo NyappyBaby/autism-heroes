@@ -12,11 +12,22 @@ h1,h2,h3,h4,h5{
    
 }
 
+.imgnews{
+    width: 100%;
+}
 .img-card{
     width: 100%;
+    
   
 }
 
+.size-img{
+    width:50%;
+}
+.img-art{
+    width: 100%;
+    height: 100%;
+}
 
 .card{
     border: 2px solid black;
@@ -38,6 +49,7 @@ input{
 .nombrevu { width:8%; }
 .nombresujets { width:8%; }
 .auteur { width:8%; }
+.reponses {width:8%;}
 .derniermessage { width:15%; }
 
 .logo{
@@ -80,8 +92,9 @@ label {
    
 .main-titre{
     background-color:#e1e2e8;
-    height: 100px;
-    padding-top: 20px;
+    height: 100%;
+    padding: 20px 0px 20px 0px;
+    
 }
 
 .mp_titre { width:65%; }

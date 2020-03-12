@@ -1,14 +1,13 @@
 <?php
-//Cette fonction doit être appelée avant tout code html
 session_start();
 
-//On donne ensuite un titre à la page, puis on appelle notre fichier debut.php
+
 $titre = "Forum pour nos heros du quotidien";
 include("includes/identifiants.php");
 include("includes/debut.php");
 include("includes/menu.php");
 
-
+date_default_timezone_set('Europe/Paris');
 ?>
 
 <!DOCTYPE html>
@@ -21,11 +20,10 @@ include("includes/menu.php");
     <title>Document</title>
 </head>
 <img class="main-image" src="css/images/FORUM.png" alt="Main image">
+<h1 class="text-center main-titre">Bienvenue sur le forum</h1>
 <?php
-echo'<i>Vous êtes ici : </i><a href ="./index.php">Index du forum</a>';
+echo'<i >Vous êtes ici : </i><a href ="./index.php">Index du forum</a>';
 ?>
-<h1 class="text-center mb-5">Bienvenue sur le forum</h1>
-<p class="text-center mb-5">Ici vous pourrez échanger avec les autres membres, posez votre question dans l'un des thèmes proposés et la communauté se chargera de vous répondre.</p>
 
 <?php
 //Initialisation de deux variables
@@ -36,7 +34,7 @@ $categorie = NULL;
 
 //Cette requête permet d'obtenir tout sur le forum
 $query=$db->prepare('SELECT cat_id, cat_nom, 
-forum_forum.forum_id, forum_forum.forum_name, forum_forum.forum_desc, forum_forum.forum_post, forum_topic, auth_view, forum_topic.topic_id, post_id, post_time, post_createur, membre_pseudo, 
+forum_forum.forum_id, forum_forum.forum_name, forum_forum.forum_desc, forum_forum.forum_post, forum_topic, auth_view, forum_topic.topic_id, forum_post.post_id, forum_post.post_time, post_createur, membre_pseudo, 
 membre_id 
 FROM forum_categorie
 LEFT JOIN forum_forum ON forum_categorie.cat_id = forum_forum.forum_cat_id
@@ -47,9 +45,11 @@ WHERE auth_view <= :lvl
 ORDER BY cat_ordre, forum_ordre DESC');
 $query->bindValue(':lvl',$lvl,PDO::PARAM_INT);
 $query->execute();
+
+
 ?>
 
-<div class="card mb-5">
+<div class="card mb-5 mt-5">
 
 <table>
 
@@ -67,7 +67,7 @@ while($data = $query->fetch())
        
         <th></th>
       
-        <th class="titre border-bottom   border-secondary bg-light"><strong><?php echo stripslashes(htmlspecialchars($data['cat_nom'])); ?>
+        <th class="titre border-bottom  border-secondary bg-light"><strong><?php echo stripslashes(htmlspecialchars($data['cat_nom'])); ?>
         </strong></th>             
         <th class="nombremessage border-bottom  border-secondary bg-light"><strong>Sujets</strong></th>       
         <th class="nombresujets border-bottom  border-secondary bg-light"><strong>Messages</strong></th>       
@@ -81,14 +81,17 @@ while($data = $query->fetch())
 
 
 
-    //Ici, on met le contenu de chaque catégorie
+   
     ?>
 
 
 <?php
-    // Ce super echo de la mort affiche tous
+    //Ici, on met le contenu de chaque catégorie
+    // Ce super echo affiche tous
     // les forums en détail : description, nombre de réponses etc...
-   
+  
+
+
     if (verif_auth($data['auth_view']))
     {
       
@@ -106,13 +109,14 @@ while($data = $query->fetch())
     if (!empty($data['forum_post']))
     {
          //Selection dernier message
-	 $nombreDeMessagesParPage = 15;
+     
       
          echo'<td class="derniermessage">
-         '.date('H\hi \l\e d/M/Y',$data['post_time']).'<br />
+         '.date('H\hi \l\e d M y',$data['post_time']).'<br />
          <a href="./voirprofil.php?m='.stripslashes(htmlspecialchars($data['membre_id'])).'&amp;action=consulter">'.$data['membre_pseudo'].'  </a>
          <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.'#p_'.$data['post_id'].'">
          </a></td></tr>';
+
 
      }
      else
@@ -120,8 +124,6 @@ while($data = $query->fetch())
          echo'<td class="nombremessages">Pas de message</td></tr>';
      }
     }
-     //Cette variable stock le nombre de messages, on la met à jour
-     $totaldesmessages += $data['forum_post'];
 
      //On ferme notre boucle et nos balises
 } //fin de la boucle
