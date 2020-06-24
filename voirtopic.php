@@ -118,8 +118,8 @@ else
 //On commence à afficher le pseudo du créateur du message :
          //On vérifie les droits du membre
          //(partie du code commentée plus tard)
-         echo'<tr><td>
-         <a class="ml-2" href="./voirprofil.php?m='.$data['membre_id'].'&amp;action=consulter">
+         echo'<tr><td class="bgPost border-secondary mt-3 border-bottom">
+         <a class="ml-2 decoration-none size" href="./voirprofil.php?m='.$data['membre_id'].'&amp;action=consulter">
          '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</a></td>';
            
          /* Si on est l'auteur du message, on affiche des liens pour
@@ -129,7 +129,7 @@ else
    
          if ($id == $data['post_createur'] || verif_auth(ADMIN) || verif_auth(MODO))
          {
-         echo'<td id=p_'.$data['post_id'].'>Posté à '.date('H\hi \l\e d M y',$data['post_time']).'
+         echo'<td class="border-bottom border-secondary bgPost" id=p_'.$data['post_id'].'>Posté à '.date('H\hi \l\e d M y',$data['post_time']).'
          <a class="btn btn-primary" href="./poster.php?p='.$data['post_id'].'&amp;action=delete">
          Supprimer</a>   
          <a class="btn btn-primary" href="./poster.php?p='.$data['post_id'].'&amp;action=edit">
@@ -137,23 +137,25 @@ else
          }
          else
          {
-         echo'<td>
+         echo'<td class="border-bottom border-secondary bgPost">
          Posté à '.date('H\hi \l\e d M y',$data['post_time']).'
          </td></tr>';
          }
        
+
          //Détails sur le membre qui a posté
-         echo'<tr><td class="border-bottom border-dark" >
-         <img class="avatar ml-2"src="'.$data['membre_avatar'].'" alt="" />
+         echo'<tr><td class="border-bottom border-secondary bgPost" >
+         <img class="avatar ml-2"src="./css/images/avatars/'.$data['membre_avatar'].'" alt="" />
          <div class="row ml-2 mr-3 mb-3"> Membre inscrit le '.date('d/m/Y',$data['membre_inscrit']).'</div>'.'</td>';
                
          //Message
-         echo'<td class="border-bottom border-dark">'.code(nl2br(stripslashes(htmlspecialchars($data['post_texte'])))).'
-         <br /><hr />'.code(nl2br(stripslashes(htmlspecialchars($data['membre_signature'])))).'</td></tr>';
+         echo'<td class="border-bottom border-secondary border-left">'.code(nl2br(stripslashes(htmlspecialchars($data['post_texte'])))).'
+         <br /><hr  class="border-top border-secondary" /><span>'.code(nl2br(stripslashes(htmlspecialchars($data['membre_signature'])))).'</span></td></tr>'; 
+        
          } //Fin de la boucle ! \o/
          $query->CloseCursor();
-
-         ?>
+           ?>
+       
 </table>
 <?php
    
@@ -167,6 +169,8 @@ else
 
 } //Fin du if qui vérifiait si le topic contenait au moins un message
 ?> 
+
+
 </div>          
 </div>
 </div>

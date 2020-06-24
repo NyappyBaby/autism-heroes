@@ -49,7 +49,7 @@ $query->execute();
 
 ?>
 
-<div class="card mb-5 mt-5">
+<div class="mb-5 mt-5">
 
 <table>
 
@@ -97,7 +97,7 @@ while($data = $query->fetch())
       
  
     echo'<tr><td></td>
-    <td class="titre"><strong>
+    <td class="titre"><strong><img class="icone" src="css/images/bulle.svg">
     <a href="./voirforum.php?f='.$data['forum_id'].'">
     '.stripslashes(htmlspecialchars($data['forum_name'])).'</a></strong>
     <br />'.nl2br(stripslashes(htmlspecialchars($data['forum_desc']))).'</td>

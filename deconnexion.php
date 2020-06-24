@@ -13,13 +13,11 @@ Cliquez <a href="'.htmlspecialchars($_SERVER['HTTP_REFERER']).'">ici</a>
 pour revenir à la page précédente.<br />
 Cliquez <a href="./index.php">ici</a> pour revenir à la page principale</p>';
 echo '</div></body></html>';
-?>
-<?php
 session_start();
 if (isset ($_COOKIE['pseudo']))
 {
 setcookie('pseudo', '', -1);
 }
 session_destroy();
-?>
+
 

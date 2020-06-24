@@ -27,7 +27,7 @@ $data=$query->fetch();
  
     <h1 class="text-center my-5"><?= stripslashes(htmlspecialchars($data['news_titre']))?></h1>
     <div class="row justify-content-center">
-    <img class="col-4 img-card" src="<?=$data['news_img']?>"/>
+    <img class="img-card2" src="./css/images/avatars/<?=$data['news_img']?>"/>
     <div class="col-6"><?= htmlspecialchars($data['news_content']) ?>
     </div>
     </div>
@@ -35,6 +35,9 @@ $data=$query->fetch();
 
 
 <?php endif; ?>
+
+
+<?php include("includes/footer.php");?>
 
 
 

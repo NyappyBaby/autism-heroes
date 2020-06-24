@@ -39,7 +39,7 @@ if (!isset($_POST['pseudo']) && !isset($_POST['password'])) //On est dans la pag
 	<a href="./register.php">Pas encore inscrit ?</a>
 	</div>
 	<div  class="row justify-content-center">
-	<a href="./passoublier.php">Mot de passe oublié?</a>
+	<a href="./recuperation.php">Mot de passe oublié?</a>
 	</div>
 	 
 	</div>
@@ -71,31 +71,30 @@ else : ?>
 			{
 				$message="<p class='text-center'>Vous avez été banni, impossible de vous connecter sur ce forum</p>";
 			} else {
-	    $_SESSION['pseudo'] = $data['membre_pseudo'];
-	    $_SESSION['level'] = $data['membre_rang'];
-	    $_SESSION['id'] = $data['membre_id'];
-	    $message = '<p class="text-center">Bienvenue '.$data['membre_pseudo'].', 
-			vous êtes maintenant connecté!</p>
-			<p class="text-center">Cliquez <a href="./index.php">ici</a> 
-            pour revenir à la page d accueil</p>';
-            
-            if (isset($_POST['souvenir']))
-            {
-            $expire = time() + 365*24*3600;
-            setcookie('pseudo', $_SESSION['pseudo'], $expire); 
-			}
+				$_SESSION['pseudo'] = $data['membre_pseudo'];
+				$_SESSION['level'] = $data['membre_rang'];
+				$_SESSION['id'] = $data['membre_id'];
+				$message = '<p class="text-center">Bienvenue '.$data['membre_pseudo'].', 
+					vous êtes maintenant connecté!</p>
+					<p class="text-center">Cliquez <a href="./index.php">ici</a> 
+					pour revenir à la page d accueil</p>';
+					
+				if (isset($_POST['souvenir']))
+				{
+				$expire = time() + 365*24*3600;
+				setcookie('pseudo', $_SESSION['pseudo'], $expire); 
+				}
 		}
      
-    }
-	else // Acces pas OK !
-	{
-	    $message = '<p class="text-center">Une erreur s\'est produite 
-	    pendant votre identification.<br /> Le mot de passe ou le pseudo 
-            entré n\'est pas correcte.</p><p class="text-center">Cliquez <a href="./connexion.php">ici</a> 
-	    pour revenir à la page précédente
-	    <br /><br />Cliquez <a  href="./index.php">ici</a> 
-	    pour revenir à la page d accueil</p>';
-	}
+    	}else // Acces pas OK !
+		{
+			$message = '<p class="text-center">Une erreur s\'est produite 
+			pendant votre identification.<br /> Le mot de passe ou le pseudo 
+				entré n\'est pas correcte.</p><p class="text-center">Cliquez <a href="./connexion.php">ici</a> 
+			pour revenir à la page précédente
+			<br /><br />Cliquez <a  href="./index.php">ici</a> 
+			pour revenir à la page d accueil</p>';
+		}
     $query->CloseCursor();
     }
     echo $message.'</div></body></html>';

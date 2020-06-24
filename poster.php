@@ -19,7 +19,7 @@ if ($id==0) erreur(ERR_IS_CO);
 if (isset($_GET['f']))
 {
     $forum = (int) $_GET['f'];
-    $query= $db->prepare('SELECT forum_name, auth_view, auth_post, auth_topic, auth_annonce, auth_modo
+    $query= $db->prepare('SELECT forum_name, auth_view, auth_post, auth_topic,auth_modo
     FROM forum_forum WHERE forum_id =:forum');
     $query->bindValue(':forum',$forum,PDO::PARAM_INT);
     $query->execute();
@@ -39,7 +39,7 @@ elseif (isset($_GET['t']))
 {
     $topic = (int) $_GET['t'];
     $query=$db->prepare('SELECT topic_titre, forum_topic.forum_id,
-    forum_name, auth_view, auth_post, auth_topic, auth_annonce, auth_modo
+    forum_name, auth_view, auth_post, auth_topic, auth_modo
     FROM forum_topic
     LEFT JOIN forum_forum ON forum_forum.forum_id = forum_topic.forum_id
     WHERE topic_id =:topic');
@@ -214,15 +214,9 @@ case "nouveautopic": //Deuxième cas : on souhaite créer un nouveau topic ?>
 
 <textarea cols=80 rows=8 id="message" name="message"></textarea>
 <br />
-<?php
-if (verif_auth($data['auth_annonce']))
-{
-    ?>
-    
+
     <label><input type="radio" name="mess" value="Message" checked="checked" />Topic</label><br />
-    <?php
-}
-?>
+
 <input type="submit" name="submit" value="Envoyer" />
 <input type="reset" name ="Effacer" value ="Effacer" />
 </form></p>

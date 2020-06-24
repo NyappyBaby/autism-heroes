@@ -40,9 +40,9 @@ $data=$query->fetch();
 <div class="row justify-content-center mt-5">
 <?php while($data=$query->fetch()) : ?>
     
-    <div class="card col-3 mx-5 mt-5 "><a class="decoration-none" href="./articles.php?id=<?= $data['info_id'] ?>">
+    <div class="card  col-6 col-lg-3 mx-5 mr-lg-1 mt-5 "><a class="decoration-none" href="./articles.php?id=<?= $data['info_id'] ?>">
         <h2 class="text-center decoration-none my-3"><?= stripslashes(htmlspecialchars($data['info_titre']))?></h2>
-        <img class="img-card" src="<?=$data['info_image']?>"/>
+        <img class="img-card" src="./css/images/avatars/<?=$data['info_image']?>"/>
         <div class="text-center decoration-none mb-5"><?= stripslashes(htmlspecialchars(substr($data['info_content'], 0, 250))) ?></div></a>
     </div> 
   

@@ -16,7 +16,7 @@ switch($action)
     //Si c'est "consulter"
     case "consulter":
        //On récupère les infos du membre
-       $query=$db->prepare('SELECT membre_pseudo, membre_avatar,
+       $query=$db->prepare('SELECT membre_id, membre_pseudo, membre_avatar,
        membre_email, membre_signature,
        membre_inscrit
        FROM forum_membres WHERE membre_id=:membre');
@@ -29,7 +29,7 @@ switch($action)
        profil de '.stripslashes(htmlspecialchars($data['membre_pseudo']));
        echo'<h1>Profil de '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</h1>';
        
-       echo'<img src="'.$data['membre_avatar'].'"
+       echo'<img src="./css/images/avatars/'.$data['membre_avatar'].'"
        alt="Ce membre n a pas d avatar" />';
        
        echo'<p><strong>Adresse E-Mail : </strong>
@@ -44,7 +44,8 @@ switch($action)
        <strong>'.date('d/m/Y',$data['membre_inscrit']).'</strong>
        <br /><br />';
 
-    
+       echo'<a href="./messagesprives.php?action=repondre&amp;id='.$data['membre_id'].'">'.'Envoyer un MP'.'</a>';
+
        
        $query->CloseCursor();
        break;
@@ -81,7 +82,8 @@ switch($action)
         echo '<a href="memberlist.php"><div class="btn btn-dark mr-2">Liste des membre</div></a>';
      
         
-        echo '<a href="amis.php"><div class="btn btn-dark mr-2">Liste des amis</div></a>'.'<a class="mt-2 ml-5" href="deconnexion.php">Déconnexion</a>';
+        echo '<a href="amis.php"><div class="btn btn-dark mr-2">Liste des amis</div></a>'.'
+        <a class="mt-2 ml-5" href="deconnexion.php">Déconnexion</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
         echo '<h1>Modifier son profil</h1>';
@@ -127,7 +129,7 @@ switch($action)
         <label><input type="checkbox" name="delete" value="Delete" />
         Supprimer l avatar</label>
         Avatar actuel :
-        <img class="size-img" src="'.$data['membre_avatar'].'"
+        <img class="size-img" src="./css/images/avatars/'.$data['membre_avatar'].'"
         alt="pas d avatar" />
         </div>
         <div class="row my-2">

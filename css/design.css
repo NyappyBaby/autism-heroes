@@ -22,7 +22,7 @@ h1,h2,h3,h4,h5{
 }
 
 .size-img{
-    width:50%;
+    width:25%;
 }
 .img-art{
     width: 100%;
@@ -43,14 +43,20 @@ input{
     border-radius: 5px;
 }
 
+.icone{
+    width: 5%;
+    height: 5%;
 
-.titre { width:68%; }
+}
+
+
+.titre { width:55%; }
 .nombremessages { width:6%; }
 .nombrevu { width:8%; }
 .nombresujets { width:8%; }
 .auteur { width:8%; }
 .reponses {width:8%;}
-.derniermessage { width:15%; }
+.derniermessage { width:25%; }
 
 .logo{
     height: 15%;
@@ -110,4 +116,17 @@ a:hover{
 }
 .bgnav{
     background-color:	#e3e1e1;
+}
+
+.bgPost{
+    background-color: rgba(252, 204, 244, 0.5);
+}
+
+.size{
+    font-size: 20px;
+}
+
+.img-card2{
+    width:40%;
+    height: 40%;
 }

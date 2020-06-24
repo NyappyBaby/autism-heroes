@@ -102,7 +102,8 @@ $email = $_POST['email'];
 $password_hashed = ($_POST['password']);
 $confirm = ($_POST['confirm']);
 $pass = password_hash($password_hashed, PASSWORD_BCRYPT);
-$confirm = $pass;
+
+
  
 //Vérification du pseudo
 $query=$db->prepare('SELECT COUNT(*) AS nbr FROM forum_membres WHERE membre_pseudo =:pseudo');
@@ -123,7 +124,7 @@ if (strlen($pseudo) < 3 || strlen($pseudo) >= 15)
 }
 
 //Vérification du mdp
-if ($pass != $confirm || empty($confirm) || empty($pass))
+if ($password_hashed != $confirm || empty($confirm) || empty($password_hashed))
 {
     $mdp_erreur = "Votre mot de passe et votre confirmation diffèrent, ou sont vides";
     $i++;
@@ -166,9 +167,9 @@ $pseudo_free=($query->fetchColumn()==0)?1:0;
     if (!empty($_FILES['avatar']['size']))
     {
         //On définit les variables :
-        $maxsize = 50000; //Poid de l'image
-        $maxwidth = 1500; //Largeur de l'image
-        $maxheight = 2000; //Longueur de l'image
+        $maxsize = 50000000; //Poid de l'image
+        $maxwidth = 15000; //Largeur de l'image
+        $maxheight = 20000; //Longueur de l'image
         $extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png', 'bmp' ); //Liste des extensions valides
         
         if ($_FILES['avatar']['error'] > 0)
@@ -248,7 +249,7 @@ $pseudo_free=($query->fetchColumn()==0)?1:0;
 <label>Se souvenir de moi ?</label><input type="checkbox" name="souvenir" /><br />
 <?php
 
-if(!$i || !$pseudo_erreur1 || !$pseudo_erreur2 || !$mdp_erreur || !$email_erreur1 || !$email_erreur2 || !$signature_erreur || !$avatar_erreur || !$avatar_erreur2 || !$avatar_erreur3) {
+if(!($pseudo_erreur1 || $pseudo_erreur2 || $mdp_erreur || $email_erreur1 || $email_erreur2 || $signature_erreur || $avatar_erreur || $avatar_erreur2 || $avatar_erreur3)) {
 //Message
 $message = "Bienvenue sur le site autism-heroes, votre inscription est bien prise en compte!";
 //Titre

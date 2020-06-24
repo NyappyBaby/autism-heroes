@@ -27,7 +27,7 @@ $data=$query->fetch();
  
     <h1 class="text-center my-5"><?= stripslashes(htmlspecialchars($data['info_titre']))?></h1>
     <div class="row justify-content-center">
-    <img class="col-4 img-art" src="<?=$data['info_image']?>"/>
+    <img class="col-4 img-art" src="./css/images/avatars/<?=$data['info_image']?>"/>
     <div class="col-6"><?= htmlspecialchars($data['info_content']) ?>
     </div>
     </div>

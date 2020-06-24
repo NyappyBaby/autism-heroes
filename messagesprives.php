@@ -96,18 +96,22 @@ case "nouveau": //Nouveau mp
    echo '<h1>Nouveau message privé</h1><br /><br />';
    ?>
    <form method="post" action="postok.php?action=nouveaump" name="formulaire">
-   <p>
+       <div class="ml-4">
+   <div class="row">
    <label for="to">Envoyer à : </label>
    <input type="text" size="30" id="to" name="to" />
-   <br />
+   </div>
+   <div class="row">
    <label for="titre">Titre : </label>
    <input type="text" size="80" id="titre" name="titre" />
-   <br /><br />
+    </div>
+<div class="row">
    <input type="button" id="gras" name="gras" value="Gras" onClick="javascript:bbcode('[g]', '[/g]');return(false)" />
    <input type="button" id="italic" name="italic" value="Italic" onClick="javascript:bbcode('[i]', '[/i]');return(false)" />
    <input type="button" id="souligné" name="souligné" value="Souligné" onClick="javascript:bbcode('[s]', '[/s]');return(false)" />
    <input type="button" id="lien" name="lien" value="Lien" onClick="javascript:bbcode('[url]', '[/url]');return(false)" />
-   <br /><br />
+</div>
+<div >
    <img src="./css/images/smileys/heureux.png" title="heureux" alt="heureux" onClick="javascript:smilies(' :D ');return(false)" />
     <img src="./css/images/smileys/rire.gif" title="lol" alt="lol" onClick="javascript:smilies(' :lol: ');return(false)" />
     <img src="./css/images/smileys/pleure.png" title="triste" alt="triste" onClick="javascript:smilies(' :triste: ');return(false)" />
@@ -130,10 +134,15 @@ case "nouveau": //Nouveau mp
     <img src="./css/images/smileys/rouge.png" title="rouge" alt="rouge" onClick="javascript:smilies(' :rouge: ');return(false)" />
     <img src="./css/images/smileys/unsure.gif" title="unsure" alt="unsure" onClick="javascript:smilies(' :unsure: ');return(false)" />
     <img src="./css/images/smileys/zorro.png" title="zorro" alt="zorro" onClick="javascript:smilies(' :zorro: ');return(false)" /> 
-   <textarea cols="80" rows="8" id="message" name="message"></textarea>
-   <br />
+    </div>
+    <div class="row">
+    <textarea cols="80" rows="8" id="message" name="message"></textarea>
+</div>
+<div class="row">
    <input type="submit" name="submit" value="Envoyer" />
-   <input type="reset" name="Effacer" value="Effacer" /></p>
+   <input type="reset" name="Effacer" value="Effacer" />
+</div>
+</div>
    </form>
 
 <?php   
@@ -235,7 +244,7 @@ WHERE mp_receveur = :id ORDER BY mp_id DESC');
 $query->bindValue(':id',$id,PDO::PARAM_INT);
 $query->execute();
 echo'<p><a href="./messagesprives.php?action=nouveau">
-<img src="./images/nouveau.gif" alt="Nouveau" title="Nouveau message" />
+<img src="css/images/nouveaump.png" alt="Nouveau" title="Nouveau message" class="icone" /> Nouveau message
 </a></p>';
 if ($query->rowCount()>0)
 {
@@ -258,18 +267,20 @@ if ($query->rowCount()>0)
         //Mp jamais lu, on affiche l'icone en question
         if($data['mp_lu'] == 0)
         {
-        echo'<td><img src="./images/message_non_lu.gif" alt="Non lu" /></td>';
+        echo'<td ><img class="icone" src="css/images/courrier.png" alt="Non lu"  /></td>';
         }
         else //sinon une autre icone
         {
-        echo'<td><img src="./images/message.gif" alt="Déja lu" /></td>';
+        echo'<td class="icone"><img src="css/images/nouveaump.png" alt="Déja lu"  /></td>';
         }
         echo'<td id="mp_titre">
         <a href="./messagesprives.php?action=consulter&amp;id='.$data['mp_id'].'">
         '.stripslashes(htmlspecialchars($data['mp_titre'])).'</a></td>
+        <div>
         <td id="mp_expediteur">
         <a href="./voirprofil.php?action=consulter&amp;m='.$data['membre_id'].'">
         '.stripslashes(htmlspecialchars($data['membre_pseudo'])).'</a></td>
+        </div>
         <td id="mp_time">'.date('H\hi \l\e d M Y',$data['mp_time']).'</td>
         <td>
         <a href="./messagesprives.php?action=repondre&amp;id='.$data['mp_expediteur'].'">Répondre</a></td>

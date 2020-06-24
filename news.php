@@ -46,7 +46,7 @@ $data=$query->fetch();
     
     <div class="card col-3 mx-5 mt-5 "><a class="decoration-none" href="./affichagenews.php?id=<?= $data['news_id'] ?>">
         <h2 class="text-center decoration-none my-3"><?= stripslashes(htmlspecialchars($data['news_titre']))?></h2>
-        <img class="img-card" src="<?=$data['news_img']?>"/>
+        <img class="img-card" src="./css/images/avatars/<?=$data['news_img']?>"/>
         <div class="text-center decoration-none mb-5"><?= stripslashes(htmlspecialchars(substr($data['news_content'], 0, 250))) ?></div></a>
     </div> 
   
