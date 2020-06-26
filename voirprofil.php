@@ -174,11 +174,11 @@ switch($action)
     $password_hashed = ($_POST['password']);
     $confirm = ($_POST['confirm']);
     $pass = password_hash($password_hashed, PASSWORD_BCRYPT);
-    $confirm = $pass;
+    
 
 
     //Vérification du mdp
-    if ($pass != $confirm || empty($confirm) || empty($pass))
+    if ($password_hashed != $confirm || empty($confirm) || empty($pass))
     {
          $mdp_erreur = "Votre mot de passe et votre confirmation diffèrent ou sont vides";
          $i++;
