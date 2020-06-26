@@ -124,7 +124,8 @@ switch($action)
         $nouveaupost = $db->lastInsertId();
         $query->CloseCursor(); 
 
-        $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post + 1  WHERE forum_id = :forum'); 
+        $query=$db->prepare('UPDATE forum_forum SET forum_post = forum_post + 1, forum_last_post_id = :nouveaupost  WHERE forum_id = :forum'); 
+        $query->bindValue(':nouveaupost', (int) $nouveaupost, PDO::PARAM_INT);   
         $query->bindValue(':forum', (int) $forum, PDO::PARAM_INT); 
         $query->execute();
         $query->CloseCursor(); 

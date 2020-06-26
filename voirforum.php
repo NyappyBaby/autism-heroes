@@ -75,7 +75,7 @@ $query->CloseCursor();
 $query=$db->prepare('SELECT forum_topic.topic_id, topic_post, topic_titre, topic_createur, topic_vu, topic_time,
 Mb.membre_pseudo AS membre_pseudo_createur, forum_post.post_id, forum_post.post_createur, forum_post.post_time, Ma.membre_pseudo AS membre_pseudo_last_posteur FROM forum_topic
 LEFT JOIN forum_membres Mb ON Mb.membre_id = forum_topic.topic_createur
-LEFT JOIN forum_post ON forum_topic.topic_id = forum_post.post_id
+LEFT JOIN forum_post ON forum_topic.topic_id = forum_post.topic_id
 LEFT JOIN forum_membres Ma ON Ma.membre_id = forum_post.post_createur 
 WHERE  forum_topic.forum_id = :forum 
 ORDER BY post_time DESC
@@ -100,8 +100,8 @@ if ($query->rowCount()>0)
         </tr>
         <?php
         //On lance la boucle
-       
-        while ($data = $query->fetch())
+        
+        if ($data = $query->fetch())
         {
                 //Ah bah tiens... re vla l'echo de fou
                 echo'
@@ -129,12 +129,13 @@ if ($query->rowCount()>0)
 		
 
                 echo '<td class="derniermessage mb-2">
-                A <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.$page.'#p_'.$data['post_id'].'">'.date('H\hi \l\e d M y',$data['post_time']).'
-                </td></tr>'.'</a></td></tr></div>';
+                A <a href="./voirtopic.php?t='.$data['topic_id'].'&amp;page='.$page.'#p_'.$data['post_id'].'">'.date('H\hi \l\e d M y',$data['post_time']).'<br>'.'</a><a href="./voirprofil.php?m='.$data['post_createur'].'&amp;action=consulter">
+                '.stripslashes(htmlspecialchars($data['membre_pseudo_last_posteur'])).'</a>'
+                .'</td></tr>'.'</td></tr></div>';
                 
         }
 
-      
+       
         ?>
         </table>
         
@@ -145,6 +146,7 @@ else //S'il n'y a pas de message
         echo'<p>Ce forum ne contient aucun sujet actuellement</p>';
 }
 $query->CloseCursor();
+
 ?>
 </div>
 </div>

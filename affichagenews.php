@@ -14,7 +14,7 @@ include("includes/menu.php");
 
 
 $id = $_GET['id'];
-//Cette requête permet d'obtenir tout sur le forum
+//Cette requête permet d'afficher tout 
 $query=$db->prepare('SELECT news_id, news_titre, news_content, news_img FROM news WHERE news_id = :id');
 $query->bindValue(':id', $id, PDO::PARAM_INT);
 $query->execute();

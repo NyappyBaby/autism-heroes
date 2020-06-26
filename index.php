@@ -38,7 +38,7 @@ forum_forum.forum_id, forum_forum.forum_name, forum_forum.forum_desc, forum_foru
 membre_id 
 FROM forum_categorie
 LEFT JOIN forum_forum ON forum_categorie.cat_id = forum_forum.forum_cat_id
-LEFT JOIN forum_post ON forum_post.post_id = forum_forum.forum_last_post_id
+LEFT JOIN forum_post ON forum_forum.forum_last_post_id = forum_post.post_id
 LEFT JOIN forum_topic ON forum_topic.topic_id = forum_post.topic_id
 LEFT JOIN forum_membres ON forum_membres.membre_id = forum_post.post_createur
 WHERE auth_view <= :lvl 
@@ -124,6 +124,7 @@ while($data = $query->fetch())
          echo'<td class="nombremessages">Pas de message</td></tr>';
      }
     }
+
 
      //On ferme notre boucle et nos balises
 } //fin de la boucle

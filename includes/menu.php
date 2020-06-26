@@ -52,5 +52,9 @@
     
   </div>
 </nav>
+<form action = "searchbar.php" method = "get">
+   <input type = "search" name = "terme">
+   <input type = "submit" name = "s" value = "Rechercher">
+  </form>
 <div id="corps_forum">
 
